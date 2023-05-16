@@ -1,18 +1,28 @@
-// import crypto from "crypto";
-const crypto = require('crypto');
+import * as crypto from "crypto";
 
 class KeyGenerator {
-    generatePrivateKey(): string{
-        // generate a new private key using a secure random generator
-        const privateKey = crypto.randomBytes(32).toString("hex");
-        return privateKey
+    generatePrivateKey(): crypto.KeyObject {
+        const { privateKey } = crypto.generateKeyPairSync('rsa', {
+          modulusLength: 2048,
+          publicKeyEncoding: {
+            type: 'spki',
+            format: 'pem'
+          },
+          privateKeyEncoding: {
+            type: 'pkcs8',
+            format: 'pem'
+          }
+        });
+        return crypto.createPrivateKey(privateKey);
     }
 
-    derivePublicKey(privateKey: string): string{
+    derivePublicKey(privateKey: crypto.KeyObject): crypto.KeyObject{
         // derive public key using private key
         try{
-            const keyPair = crypto.createPublicKey(privateKey);
-            const publicKey = keyPair.export({type: "spki", format: "pem" });
+            console.log(privateKey);
+            const publicKey = crypto.createPublicKey(privateKey);
+            // console.log(keyPair);
+            // const publicKey = keyPair.export({type: "spki", format: "pem" });
             return publicKey;
         }
         catch(error){
