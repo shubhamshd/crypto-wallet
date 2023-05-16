@@ -4,7 +4,7 @@
   "description": "crypto wallet project using nodejs/typescript & solidity",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,16 @@
   "bugs": {
     "url": "https://github.com/shubhamshd/crypto-wallet/issues"
   },
-  "homepage": "https://github.com/shubhamshd/crypto-wallet#readme"
+  "homepage": "https://github.com/shubhamshd/crypto-wallet#readme",
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "node-fetch": "^3.3.1",
+    "typescript": "^5.0.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.1",
+    "@types/node": "^20.1.5",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.1.0"
+  }
 }
