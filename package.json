@@ -18,6 +18,7 @@
   "homepage": "https://github.com/shubhamshd/crypto-wallet#readme",
   "dependencies": {
     "crypto": "^1.0.1",
+    "ethereumjs-common": "^1.5.2",
     "ethereumjs-tx": "^2.1.2",
     "node-fetch": "^3.3.1",
     "typescript": "^5.0.4",

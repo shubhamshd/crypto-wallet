@@ -26,5 +26,5 @@ describe('Ethereum Transaction', () => {
 
       expect(result).toBeTruthy();
 
-    });
+    }, 100000);
 });

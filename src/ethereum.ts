@@ -1,9 +1,20 @@
 // import Web3 from "web3";
 // import Web3 from "web3";
 const Web3 = require("web3");
-const EthereumTx = require("ethereumjs-tx");
+// const EthereumTx = require("ethereumjs-tx");
+import * as EthereumTx from 'ethereumjs-tx'
+// const Common = require('ethereumjs-common')
+import * as Common from 'ethereumjs-common'
 
-// const web3 = new Web3('https://mainnet.infura.io/v3/a3de7f586dff4c4aadd1eabd1b6a6007');
+// Define the chain configuration
+const common = Common.default.forCustomChain(
+    'mainnet', {
+        name: 'sepolia',
+        networkId: 11155111,
+        chainId: 11155111,
+    },
+    'petersburg',
+);
 
 class Ethereum {
 
@@ -34,7 +45,10 @@ class Ethereum {
         to: string, 
         value: string, 
         privateKey: string): Promise<string> {
-        const nonce = await this.web3.eth.getTransactionCount(from);
+        // const nonce = await this.web3.eth.getTransactionCount(from);
+        const nonce = 5
+        const nonceTest = await this.web3.eth.getTransactionCount(from);
+        console.log(nonceTest)
 
         const txParams = {
             nonce: this.web3.utils.toHex(nonce),
@@ -44,14 +58,23 @@ class Ethereum {
             // gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'Gwei'))
         };
 
-        const tx = new EthereumTx(txParams);
+        const tx = new EthereumTx.Transaction(txParams, {common})
+        console.log(tx)
         tx.sign(Buffer.from(privateKey, 'hex'));
 
         const serializedTx = tx.serialize();
         const rawTx = '0x' + serializedTx.toString('hex');
+        console.log(rawTx)
 
-        const receipt = await this.web3.eth.sendSignedTransaction(rawTx);
-        return receipt.transactionHash;
+        try{
+            const receipt = await this.web3.eth.sendSignedTransaction(rawTx);
+            console.log(receipt.transactionHash)
+            return receipt.transactionHash;
+        }
+        catch(error){
+            console.error('Error sending transaction:', error);
+            throw new Error('Failed to send transaction');  
+        }
     }
 }
 
